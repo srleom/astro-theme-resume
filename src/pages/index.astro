@@ -28,14 +28,15 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 			<Image
 				src={astro}
 				alt='profile photo'
-				class='h-28 w-auto rounded-full p-2 bg-[#FFBE98]'
+				class='h-28 w-auto rounded-full bg-[#FFBE98] p-2'
 				loading='eager'
 			/>
 
 			<div class='flex flex-col items-center gap-y-4'>
 				<h1 class='text-3xl font-bold'>Lorem ipsum dolor</h1>
-				<div
-					class='flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm'
+				<a
+					href='https://github.com/srleom/astro-theme-resume.git'
+					class='flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md'
 				>
 					<span class='relative flex items-center justify-center'>
 						<span
@@ -44,8 +45,8 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 						<span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span>
 					</span>
 
-					<p class=''>Available for work</p>
-				</div>
+					<p class='font-medium'>Get template</p>
+				</a>
 				<div class='flex gap-x-7'>
 					<Label title='Lorem Ipsum'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='h-5 w-5' slot='icon'
@@ -212,4 +213,17 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 			<SkillLayout title='Others' skills={others} />
 		</Section>
 	</div>
+	<a
+		href='https://github.com/srleom/astro-theme-resume.git'
+		class='mt-16 flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md'
+	>
+		<span class='relative flex items-center justify-center'>
+			<span
+				class='absolute inline-flex h-2 w-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75'
+			></span>
+			<span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span>
+		</span>
+
+		<p class='font-medium'>Get template</p>
+	</a>
 </PageLayout>
