@@ -17,8 +17,8 @@
 
 ## Credits
 
-1. [astro-theme-cactus](https://github.com/chrismwilliams/astro-theme-cactus) for blog design
-2. [minirezume-framer](https://minirezume.framer.website/) for resume homepage design
+- [astro-theme-cactus](https://github.com/chrismwilliams/astro-theme-cactus) for blog design
+- [minirezume-framer](https://minirezume.framer.website/) for resume homepage design
 
 ## Project Structure
 
