@@ -1,0 +1,40 @@
+---
+import { Image } from 'astro:assets'
+import type { ImageMetadata } from 'astro'
+import { cn } from '@/utils'
+
+const {
+	as: Tag = 'a',
+	class: className,
+	href,
+	heading,
+	subheading,
+	imagePath,
+	altText
+} = Astro.props
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/*.{jpeg,jpg,png,gif}')
+if (!images[imagePath])
+	throw new Error(`"${imagePath}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif}"`)
+---
+
+<Tag
+	class={cn(
+		className,
+		'flex flex-col gap-y-3 rounded-2xl border border-border bg-primary-foreground ',
+		href && 'transition-all hover:border-foreground/25 hover:shadow-sm'
+	)}
+	href={href}
+>
+	<Image
+		src={images[imagePath]()}
+		alt={altText}
+		class='h-48 w-full rounded-2xl rounded-bl-none rounded-br-none object-cover'
+		loading='eager'
+	/>
+	<div class='flex flex-col gap-y-0.5 px-5 py-4'>
+		<h1 class='text-lg font-medium'>{heading}</h1>
+		<h2 class='text-muted-foreground'>{subheading}</h2>
+	</div>
+
+	<slot />
+</Tag>

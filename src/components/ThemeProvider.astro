@@ -1,0 +1,42 @@
+<script is:inline>
+	const lightModePref = window.matchMedia('(prefers-color-scheme: light)')
+
+	// Get user preference from local storage or from browser preference
+	function getUserPref() {
+		const storedTheme = localStorage.getItem('theme') ?? undefined
+		return storedTheme || (lightModePref.matches ? 'light' : 'dark')
+	}
+
+	function setTheme(newTheme) {
+		if (newTheme !== 'light' && newTheme !== 'dark') {
+			return console.log(`Invalid theme value '${newTheme}' received. Expected 'light' or 'dark'.`)
+		}
+
+		const root = document.documentElement
+
+		// if current dark theme and new theme is dark, return
+		if (newTheme === 'dark' && root.classList.contains('dark')) {
+			return
+		} else if (newTheme === 'light' && !root.classList.contains('dark')) {
+			return
+		}
+
+		root.classList.toggle('dark')
+
+		localStorage.setItem('theme', newTheme)
+	}
+
+	// Initial Setup
+	setTheme(getUserPref())
+
+	// View Transitions hook to restore theme
+	document.addEventListener('astro:after-swap', () => setTheme(getUserPref()))
+
+	// Listen for theme-change custom event
+	document.addEventListener('theme-change', (e) => {
+		setTheme(e.detail.theme)
+	})
+
+	// Listen for prefers-color-scheme change
+	lightModePref.addEventListener('change', (e) => setTheme(e.matches ? 'light' : 'dark'))
+</script>

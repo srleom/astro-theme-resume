@@ -1,0 +1,55 @@
+---
+import Button from '@/components/Button.astro'
+import PageLayout from '@/layouts/BaseLayout.astro'
+import { getAllPosts, getUniqueTagsWithCount } from '@/utils'
+
+const allPosts = await getAllPosts()
+const allTags = getUniqueTagsWithCount(allPosts)
+
+const meta = {
+	description: "A list of all the topics I've written about in my posts",
+	title: 'All Tags'
+}
+---
+
+<PageLayout meta={meta}>
+	<div class='w-full'>
+		<Button title='Back' href='/blog' style='button'>
+			<svg
+				xmlns='http://www.w3.org/2000/svg'
+				width='14'
+				height='14'
+				viewBox='0 0 24 24'
+				slot='icon-before'
+			>
+				<path
+					fill='currentColor'
+					d='m6.921 12.5l5.792 5.792L12 19l-7-7l7-7l.713.708L6.921 11.5H19v1z'
+				>
+				</path>
+			</svg>
+		</Button>
+
+		<h1 class='mb-6 mt-5 text-2xl font-bold'>Tags</h1>
+
+		<ul class='flex flex-col gap-y-3'>
+			{
+				allTags.map(([tag, val]) => (
+					<li class='flex items-center gap-x-2 '>
+						<a
+							class='inline-block underline underline-offset-4 hover:text-foreground/75'
+							data-astro-prefetch
+							href={`/tags/${tag}/`}
+							title={`View posts with the tag: ${tag}`}
+						>
+							&#35;{tag}
+						</a>
+						<span class='inline-block'>
+							- {val} post{val > 1 && 's'}
+						</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</PageLayout>

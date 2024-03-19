@@ -1,0 +1,83 @@
+---
+export const prerender = true
+
+import type { GetStaticPaths, Page } from 'astro'
+import type { CollectionEntry } from 'astro:content'
+
+import Pagination from '@/components/Paginator.astro'
+import PostPreview from '@/components/blog/PostPreview.astro'
+import PageLayout from '@/layouts/BaseLayout.astro'
+import Button from '@/components/Button.astro'
+import { getAllPosts, getUniqueTags, sortMDByDate } from '@/utils'
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+	const allPosts = await getAllPosts()
+	const allPostsByDate = sortMDByDate(allPosts)
+	const uniqueTags = getUniqueTags(allPostsByDate)
+
+	return uniqueTags.flatMap((tag) => {
+		const filterPosts = allPostsByDate.filter((post) => post.data.tags.includes(tag))
+		return paginate(filterPosts, {
+			pageSize: 10,
+			params: { tag }
+		})
+	})
+}
+
+interface Props {
+	page: Page<CollectionEntry<'post'>>
+}
+
+const { page } = Astro.props
+const { tag } = Astro.params
+
+const meta = {
+	description: `View all posts with the tag - ${tag}`,
+	title: `Tag: ${tag}`
+}
+
+const paginationProps = {
+	...(page.url.prev && {
+		prevUrl: {
+			text: `← Previous Tags`,
+			url: page.url.prev
+		}
+	}),
+	...(page.url.next && {
+		nextUrl: {
+			text: `Next Tags →`,
+			url: page.url.next
+		}
+	})
+}
+---
+
+<PageLayout meta={meta}>
+	<div class='w-full'>
+		<Button title='Back' href='/blog' style='button'>
+			<svg
+				xmlns='http://www.w3.org/2000/svg'
+				width='14'
+				height='14'
+				viewBox='0 0 24 24'
+				slot='icon-before'
+			>
+				<path
+					fill='currentColor'
+					d='m6.921 12.5l5.792 5.792L12 19l-7-7l7-7l.713.708L6.921 11.5H19v1z'
+				>
+				</path>
+			</svg>
+		</Button>
+		<h1 class='mb-6 mt-5 flex items-end gap-x-2 text-2xl font-bold'>
+			Tags:
+			<span class='text-xl'>#{tag}</span>
+		</h1>
+		<section aria-label='Blog post list'>
+			<ul class='flex flex-col gap-y-3 text-start'>
+				{page.data.map((p) => <PostPreview as='h2' post={p} withDesc />)}
+			</ul>
+			<Pagination {...paginationProps} />
+		</section>
+	</div>
+</PageLayout>

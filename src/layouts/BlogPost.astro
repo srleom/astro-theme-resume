@@ -1,0 +1,91 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import BlogHero from '@/components/blog/Hero.astro'
+import TOC from '@/components/blog/TOC.astro'
+import Button from '@/components/Button.astro'
+
+import PageLayout from './BaseLayout.astro'
+
+interface Props {
+	post: CollectionEntry<'post'>
+}
+
+const { post } = Astro.props
+const {
+	data: { description, ogImage, publishDate, title, updatedDate },
+	slug
+} = post
+
+const socialImage = ogImage ?? `/og-image/${slug}.png`
+const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString()
+const { headings } = await post.render()
+---
+
+<PageLayout meta={{ articleDate, description, ogImage: socialImage, title }}>
+	<div class='w-full'>
+		<Button title='Back' href='/blog' style='button'>
+			<svg
+				xmlns='http://www.w3.org/2000/svg'
+				width='14'
+				height='14'
+				viewBox='0 0 24 24'
+				slot='icon-before'
+			>
+				<path
+					fill='currentColor'
+					d='m6.921 12.5l5.792 5.792L12 19l-7-7l7-7l.713.708L6.921 11.5H19v1z'
+				>
+				</path>
+			</svg>
+		</Button>
+		<div class='mt-8 gap-x-10 lg:flex lg:items-start'>
+			{!!headings.length && <TOC headings={headings} />}
+			<article class='flex-grow break-words' data-pagefind-body>
+				<div id='blog-hero'><BlogHero content={post} /></div>
+				<div
+					class='prose prose-base prose-zinc mt-12 text-muted-foreground dark:prose-invert prose-headings:font-medium prose-headings:text-foreground prose-headings:before:absolute prose-headings:before:-ms-4 prose-th:before:content-none'
+				>
+					<slot />
+				</div>
+			</article>
+		</div>
+		<button
+			aria-label='Back to Top'
+			class='z-90 fixed bottom-8 end-4 flex h-8 w-8 translate-y-28 items-center justify-center rounded-full border-2 border-transparent bg-primary-foreground text-3xl opacity-0 transition-all duration-300 hover:border-border/75 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12'
+			data-show='false'
+			id='to-top-btn'
+			><svg
+				aria-hidden='true'
+				class='h-4 w-4'
+				fill='none'
+				focusable='false'
+				stroke='currentColor'
+				stroke-width='2'
+				viewBox='0 0 24 24'
+				xmlns='http://www.w3.org/2000/svg'
+			>
+				<path d='M4.5 15.75l7.5-7.5 7.5 7.5' stroke-linecap='round' stroke-linejoin='round'></path>
+			</svg>
+		</button>
+	</div>
+</PageLayout>
+
+<script>
+	const scrollBtn = document.getElementById('to-top-btn') as HTMLButtonElement
+	const targetHeader = document.getElementById('blog-hero') as HTMLDivElement
+
+	function callback(entries: IntersectionObserverEntry[]) {
+		entries.forEach((entry) => {
+			// only show the scroll to top button when the heading is out of view
+			scrollBtn.dataset.show = (!entry.isIntersecting).toString()
+		})
+	}
+
+	scrollBtn.addEventListener('click', () => {
+		document.documentElement.scrollTo({ behavior: 'smooth', top: 0 })
+	})
+
+	const observer = new IntersectionObserver(callback)
+	observer.observe(targetHeader)
+</script>
