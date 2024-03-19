@@ -12,6 +12,8 @@
 			return console.log(`Invalid theme value '${newTheme}' received. Expected 'light' or 'dark'.`)
 		}
 
+		localStorage.setItem('theme', newTheme)
+
 		const root = document.documentElement
 
 		// if current dark theme and new theme is dark, return
@@ -22,8 +24,6 @@
 		}
 
 		root.classList.toggle('dark')
-
-		localStorage.setItem('theme', newTheme)
 	}
 
 	// Initial Setup
