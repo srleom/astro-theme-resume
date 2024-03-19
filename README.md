@@ -2,9 +2,9 @@
 
 ## Features
 
-- ESLint / Prettier pre-installed and pre-configured
 - Astro v4
 - TailwindCSS Utility classes
+- ESLint / Prettier pre-installed and pre-configured
 - Accessible, semantic HTML markup
 - Responsive & SEO-friendly
 - Dark / Light mode, using Tailwind and CSS variables (referenced from shadcn)
