@@ -3,7 +3,7 @@
 ## Features
 
 - Astro v4
-- TailwindCSS Utility classes
+- TailwindCSS utility classes
 - ESLint / Prettier pre-installed and pre-configured
 - Accessible, semantic HTML markup
 - Responsive & SEO-friendly
