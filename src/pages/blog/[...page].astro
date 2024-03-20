@@ -64,51 +64,58 @@ const paginationProps = {
 		</Button>
 
 		<h1 class='mb-6 mt-5 text-2xl font-bold'>Blog</h1>
-		<div class='grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8'>
-			<section aria-label='Blog posts list'>
-				<ul class='flex flex-col gap-y-4 text-start'>
-					{page.data.map((p) => <PostPreview post={p} withDesc />)}
-				</ul>
-				<Pagination {...paginationProps} />
-			</section>
-			{
-				!!uniqueTags.length && (
-					<aside>
-						<h2 class='mb-4 flex items-center text-lg font-semibold'>
-							<svg
-								aria-hidden='true'
-								class='h-6 w-6'
-								fill='none'
-								stroke='currentColor'
-								stroke-linecap='round'
-								stroke-linejoin='round'
-								stroke-width='1.5'
-								viewBox='0 0 24 24'
-								xmlns='http://www.w3.org/2000/svg'
-							>
-								<path d='M0 0h24v24H0z' fill='none' stroke='none' />
-								<path d='M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z' />
-								<path d='M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116' />
-								<path d='M6 9h-.01' />
-							</svg>
-							Tags
-						</h2>
-						<ul class='text-bgColor flex flex-wrap gap-2'>
-							{uniqueTags.map((tag) => (
-								<li>
-									<Button title={tag} href={`/tags/${tag}/`} style='pill' />
-								</li>
+		{page.data.length === 0 && <p>No posts yet.</p>}
+
+		{
+			page.data.length > 0 && (
+				<div class='grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8'>
+					<section aria-label='Blog posts list'>
+						<ul class='flex flex-col gap-y-4 text-start'>
+							{page.data.map((p) => (
+								<PostPreview post={p} withDesc />
 							))}
 						</ul>
-						<span class='mt-4 block sm:text-end'>
-							<a aria-label='View all blog categories' class='' href='/tags/' data-astro-prefetch>
-								View all →
-							</a>
-						</span>
-					</aside>
-				)
-			}
-		</div>
+						<Pagination {...paginationProps} />
+					</section>
+					{!!uniqueTags.length && (
+						<aside>
+							<h2 class='mb-4 flex items-center text-lg font-semibold'>
+								<svg
+									aria-hidden='true'
+									class='h-6 w-6'
+									fill='none'
+									stroke='currentColor'
+									stroke-linecap='round'
+									stroke-linejoin='round'
+									stroke-width='1.5'
+									viewBox='0 0 24 24'
+									xmlns='http://www.w3.org/2000/svg'
+								>
+									<path d='M0 0h24v24H0z' fill='none' stroke='none' />
+									<path d='M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z' />
+									<path d='M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116' />
+									<path d='M6 9h-.01' />
+								</svg>
+								Tags
+							</h2>
+							<ul class='text-bgColor flex flex-wrap gap-2'>
+								{uniqueTags.map((tag) => (
+									<li>
+										<Button title={tag} href={`/tags/${tag}/`} style='pill' />
+									</li>
+								))}
+							</ul>
+							<span class='mt-4 block sm:text-end'>
+								<a aria-label='View all blog categories' class='' href='/tags/' data-astro-prefetch>
+									View all →
+								</a>
+							</span>
+						</aside>
+					)}
+				</div>
+			)
+		}
+
 		<a
 			href='https://github.com/srleom/astro-theme-resume.git'
 			class='mt-16 inline-flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md'
