@@ -1,0 +1,48 @@
+---
+import { cn } from '@/utils'
+import { Icon } from 'astro-icon/components'
+
+interface Props {
+	class?: string
+	title: string
+	tools: {
+		name: string
+		description: string
+		href: string
+		iconPath: string
+		iconBgColour: string
+	}[]
+}
+const { class: className, title, tools, ...props } = Astro.props
+---
+
+<div
+	class={cn(
+		className,
+		'flex flex-col rounded-xl border border-border py-5 px-3 gap-y-4 sm:gap-y-6'
+	)}
+	{...props}
+>
+	<h2 class='px-2 text-lg font-medium'>{title}</h2>
+	<div class='grid grid-cols-1 gap-x-2 gap-y-3 sm:grid-cols-2 sm:gap-y-4'>
+		{
+			tools.map((tool) => (
+				<a
+					class='group relative hover:bg-transparent '
+					href={tool.href}
+					id={tool.name}
+					target='_blank'
+				>
+					<div class='relative flex flex-row items-center gap-x-4 px-2 py-0.5 transition-all'>
+						<div class='absolute -inset-0 z-10 rounded-lg border border-border bg-muted opacity-0 transition-all group-hover:opacity-50' />
+						<Icon name={tool.iconPath} class='z-20 h-10 w-10 rounded-lg bg-muted p-2' />
+						<div class='z-20 flex flex-col'>
+							<h3 class='font-medium'>{tool.name}</h3>
+							<p class='text-muted-foreground'>{tool.description}</p>
+						</div>
+					</div>
+				</a>
+			))
+		}
+	</div>
+</div>

@@ -7,6 +7,7 @@ import remarkUnwrapImages from 'remark-unwrap-images'
 import rehypeExternalLinks from 'rehype-external-links'
 import expressiveCode from 'astro-expressive-code'
 import { expressiveCodeOptions } from './src/site.config'
+import icon from 'astro-icon'
 
 import vercel from '@astrojs/vercel/serverless'
 
@@ -19,7 +20,8 @@ export default defineConfig({
 			applyBaseStyles: false
 		}),
 		sitemap(),
-		mdx()
+		mdx(),
+		icon()
 	],
 	markdown: {
 		remarkPlugins: [remarkUnwrapImages, remarkReadingTime],

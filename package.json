@@ -20,6 +20,7 @@
 		"@vercel/analytics": "^1.2.2",
 		"astro": "^4.4.15",
 		"astro-expressive-code": "^0.33.5",
+		"astro-icon": "^1.1.0",
 		"clsx": "^2.1.0",
 		"mdast-util-to-string": "^4.0.0",
 		"reading-time": "^1.5.0",
