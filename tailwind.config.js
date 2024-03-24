@@ -61,7 +61,6 @@ const config = {
 			fontFamily: {
 				sans: [...fontFamily.sans],
 				satoshi: ['Satoshi', 'sans'],
-				display: ['Clash Display', 'display']
 			}
 		}
 	}
